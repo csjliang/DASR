@@ -1,0 +1,68 @@
+name: DASR
+model_type: SRGANDynamicModel
+scale: 4
+num_gpu: 1
+manual_seed: 0
+num_networks: 5
+
+datasets:
+  test_1:
+    name: RealWorld38
+    type: SingleImageDataset
+    dataroot_lq: datasets/RealWorld38
+    io_backend:
+      type: disk
+  test_2:
+    name: DIV2K_type1
+    type: SingleImageDataset
+    dataroot_lq: datasets/DIV2K_type1
+    io_backend:
+      type: disk
+  test_3:
+    name: DIV2K_type2
+    type: SingleImageDataset
+    dataroot_lq: datasets/DIV2K_type2
+    io_backend:
+      type: disk
+  test_4:
+    name: DIV2K_type3
+    type: SingleImageDataset
+    dataroot_lq: datasets/DIV2K_type3
+    io_backend:
+      type: disk
+  test_10:
+    name: DIV2K_bicubic
+    type: SingleImageDataset
+    dataroot_lq: datasets/DIV2K_bicubic
+    io_backend:
+      type: disk
+
+network_g:
+  type: MSRResNetDynamic
+  num_in_ch: 3
+  num_out_ch: 3
+  num_feat: 64
+  num_block: 16
+  num_models: 5
+  upscale: 4
+
+network_p:
+  type: Degradation_Predictor
+  in_nc: 3
+  nf: 64
+  num_params: 33
+  num_networks: 5
+
+# path
+path:
+  pretrain_network_g: experiments/pretrained_models/net_g.pth
+  pretrain_network_p: experiments/pretrained_models/net_p.pth
+  param_key_g: ~
+  strict_load_g: true
+
+# validation settings
+val:
+  save_img: true
+  suffix: ~  # add suffix to saved images, if None, use exp name
+
+#PYTHONPATH="./:${PYTHONPATH}" CUDA_VISIBLE_DEVICES=15 python dasr/test.py -opt options/test/DASR/test_DASR.yml

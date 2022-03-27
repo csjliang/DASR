@@ -1,0 +1,235 @@
+name: train_DASR
+model_type: DASRModel
+scale: 4
+num_gpu: 1
+num_networks: 5
+manual_seed: 0
+
+l1_gt_usm: True
+percep_gt_usm: True
+gan_gt_usm: False
+
+degree_list: ['weak_degrade_one_stage', 'standard_degrade_one_stage', 'severe_degrade_two_stage']
+degree_prob: [0.3, 0.3, 0.4]
+
+# the degradation process of weak_degrade_one_stage
+resize_prob_weak1: [0.1, 0.2, 0.7]  # up, down, keep
+resize_range_weak1: [0.85, 1.2]
+gaussian_noise_prob_weak1: 0.5
+noise_range_weak1: [1, 10]
+poisson_scale_range_weak1: [0.05, 0.5]
+gray_noise_prob_weak1: 0.4
+jpeg_range_weak1: [90, 95]
+
+# the degradation process of standard_degrade_one_stage
+resize_prob_standard1: [0.3, 0.4, 0.3]  # up, down, keep
+resize_range_standard1: [0.5, 1.2]
+gaussian_noise_prob_standard1: 0.5
+noise_range_standard1: [1, 20]
+poisson_scale_range_standard1: [0.05, 1.5]
+gray_noise_prob_standard1: 0.4
+jpeg_range_standard1: [50, 95]
+
+# the first degradation process of severe_degrade_two_stage
+resize_prob: [0.2, 0.7, 0.1]  # up, down, keep
+resize_range: [0.15, 1.5]
+gaussian_noise_prob: 0.5
+noise_range: [1, 30]
+poisson_scale_range: [0.05, 3]
+gray_noise_prob: 0.4
+jpeg_range: [30, 95]
+
+# the second degradation process of severe_degrade_two_stage
+second_blur_prob: 0.8
+resize_prob2: [0.3, 0.4, 0.3]  # up, down, keep
+resize_range2: [0.3, 1.2]
+gaussian_noise_prob2: 0.5
+noise_range2: [1, 25]
+poisson_scale_range2: [0.05, 2.5]
+gray_noise_prob2: 0.4
+jpeg_range2: [30, 95]
+
+gt_size: 256
+queue_size: 192
+
+# dataset and data loader settings
+datasets:
+  train:
+    name: DF2K+OST
+    type: DASRDataset
+    dataroot_gt: /raid/liangjie/BasicSR_ALL_/datasets/DF2K/DF2K_multiscaleHR_sub
+    meta_info: /raid/liangjie/BasicSR_ALL_/datasets/DF2K/DF2K_multiscaleHR_OST_sub.txt
+    io_backend:
+      type: disk
+
+    blur_kernel_size_weak1: 21
+    blur_kernel_size_minimum_weak1: 7
+    kernel_list_weak1: [ 'iso', 'aniso' ]
+    kernel_prob_weak1: [ 0.65, 0.35 ]
+    sinc_prob_weak1: 0
+    blur_sigma_weak1: [ 0.2, 0.8 ]
+    betag_range_weak1: [ 0.5, 4 ]
+    betap_range_weak1: [ 1, 2 ]
+
+    blur_kernel_size_standard1: 21
+    blur_kernel_size_minimum_standard1: 7
+    kernel_list_standard1: [ 'iso', 'aniso' ]
+    kernel_prob_standard1: [ 0.65, 0.35 ]
+    sinc_prob_standard1: 0
+    blur_sigma_standard1: [ 0.2, 1.5 ]
+    betag_range_standard1: [ 0.5, 4 ]
+    betap_range_standard1: [ 1, 2 ]
+
+    blur_kernel_size: 21
+    blur_kernel_size_minimum: 7
+    kernel_list: [ 'iso', 'aniso']
+    kernel_prob: [ 0.65, 0.35]
+    sinc_prob: 0
+    blur_sigma: [0.2, 3]
+    betag_range: [0.5, 4]
+    betap_range: [1, 2]
+
+    blur_kernel_size2: 21
+    blur_kernel_size2_minimum: 7
+    kernel_list2: [ 'iso', 'aniso' ]
+    kernel_prob2: [ 0.65, 0.35 ]
+    sinc_prob2: 0
+    blur_sigma2: [0.2, 1.5]
+    betag_range2: [0.5, 4]
+    betap_range2: [1, 2]
+
+    final_sinc_prob: 0.8
+
+    gt_size: 256
+    use_hflip: True
+    use_rot: False
+
+    # data loader
+    use_shuffle: true
+    num_worker_per_gpu: 1
+    batch_size_per_gpu: 6
+    dataset_enlarge_ratio: 1
+    prefetch_mode: ~
+
+  val:
+    name: RealWorld38
+    type: SingleImageDataset
+    dataroot_lq: datasets/RealWorld38
+    io_backend:
+      type: disk
+
+# network structures
+network_g:
+  type: MSRResNetDynamic
+  num_in_ch: 3
+  num_out_ch: 3
+  num_feat: 64
+  num_block: 16
+  num_models: 5
+  upscale: 4
+
+network_p:
+  type: Degradation_Predictor
+  in_nc: 3
+  nf: 64
+  num_params: 33
+  num_networks: 5
+
+network_d:
+  type: UNetDiscriminatorSN
+  num_in_ch: 3
+  num_feat: 64
+  skip_connection: True
+
+# path
+path:
+  pretrain_network_g: /raid/liangjie/BasicSR_ALL_/experiments/pretrained_models/MSRResnet/MSRResNet_x4_f64b16_DIV2K_1000k_B16G1_net_g_1000000.pth
+  pretrain_network_p: ~
+  param_key_g: params
+  strict_load_g: true
+  resume_state: ~
+
+# training settings
+train:
+  ema_decay: 0.999
+  optim_g:
+    type: Adam
+    lr: !!float 1e-4
+    weight_decay: 0
+    betas: [ 0.9, 0.99 ]
+  optim_d:
+    type: Adam
+    lr: !!float 1e-4
+    weight_decay: 0
+    betas: [ 0.9, 0.99 ]
+
+  scheduler:
+    type: MultiStepLR
+    milestones: [ 500000 ]
+    gamma: 1
+
+  total_iter: 500000
+  warmup_iter: -1  # no warm up
+
+  # losses
+  pixel_opt:
+    type: L1Loss
+    loss_weight: 1.0
+    reduction: mean
+  cycle_opt:
+    type: L1Loss
+    loss_weight: 1.0
+    reduction: mean
+  regress_opt:
+    type: L1Loss
+    loss_weight: 1.0
+    reduction: mean
+  # perceptual loss (content and style losses)
+  perceptual_opt:
+    type: PerceptualLoss
+    layer_weights:
+      # before relu
+      'conv1_2': 0.1
+      'conv2_2': 0.1
+      'conv3_4': 1
+      'conv4_4': 1
+      'conv5_4': 1
+    vgg_type: vgg19
+    use_input_norm: true
+    perceptual_weight: !!float 1
+    style_weight: 0
+    range_norm: false
+    criterion: l1
+  # gan loss
+  gan_opt:
+    type: GANLoss
+    gan_type: vanilla
+    real_label_val: 1.0
+    fake_label_val: 0.0
+    loss_weight: !!float 1e-1
+
+  net_d_iters: 1
+  net_d_init_iters: 0
+
+# Uncomment these for validation
+# validation settings
+val:
+  val_freq: !!float 5e3
+  save_img: True
+
+# logging settings
+logger:
+  print_freq: 100
+  save_checkpoint_freq: !!float 5e3
+  use_tb_logger: true
+  wandb:
+    project: ~
+    resume_id: ~
+
+# dist training settings
+dist_params:
+  backend: nccl
+  port: 29500
+
+#PYTHONPATH="./:${PYTHONPATH}" CUDA_VISIBLE_DEVICES=12,13,14,15 python -m torch.distributed.launch --nproc_per_node=4 --master_port=4335 dasr/train.py -opt options/train/DASR/train_DASR.yml --launcher pytorch --auto_resume
+#PYTHONPATH="./:${PYTHONPATH}" CUDA_VISIBLE_DEVICES=15 python dasr/train.py -opt options/train/DASR/train_DASR.yml
