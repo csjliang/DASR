@@ -32,7 +32,7 @@ For more details, please refer to our paper.
 - Clone this repo.
 ```bash
 git clone https://github.com/csjliang/DASR
-cd LDL
+cd DASR
 ```
 
 - Install dependencies. (Python 3 + NVIDIA GPU + CUDA. Recommend to use Anaconda)
