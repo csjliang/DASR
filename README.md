@@ -69,6 +69,10 @@ PYTHONPATH="./:${PYTHONPATH}" CUDA_VISIBLE_DEVICES=0 python dasr/test.py -opt op
 
 Evaluating files (logs and visualizations) will be saved in the directory ```./results/{name}```
 
+### License
+
+This project is released under the Apache 2.0 license.
+
 ### Citation
 ```
 @article{jie2022DASR,
