@@ -3,7 +3,7 @@
 ### [Paper](https://arxiv.org/pdf/2203.14216.pdf)
 
 > **Efficient and Degradation-Adaptive Network for Real-World Image Super-Resolution** <br>
-> [Jie Liang\*](https://liangjie.xyz/), [Hui Zeng\*](https://huizeng.github.io/), and [Lei Zhang](https://www4.comp.polyu.edu.hk/~cslzhang/). <br>
+> [Jie Liang](https://liangjie.xyz/), [Hui Zeng](https://huizeng.github.io/), and [Lei Zhang](https://www4.comp.polyu.edu.hk/~cslzhang/). <br>
 > In arxiv preprint.
 
 ### Abstract
@@ -64,7 +64,7 @@ Training files (logs, models, training states and visualizations) will be saved 
 
 First, check and adapt the yml file ```options/test/DASR/test_DASR.yml```, then run:
 ```bash
-PYTHONPATH="./:${PYTHONPATH}" CUDA_VISIBLE_DEVICES=0 python dasr/test.py -opt options/test/DASR/test_DASR.yml
+PYTHONPATH="./:${PYTHONPATH}" CUDA_VISIBLE_DEVICES=0 python basicsr/test.py -opt options/test/DASR/test_DASR.yml
 ```
 
 Evaluating files (logs and visualizations) will be saved in the directory ```./results/{name}```
