@@ -1,6 +1,6 @@
 # DASR
 
-### [Paper]()
+### [Paper](https://arxiv.org/pdf/2203.14216.pdf)
 
 > **Efficient and Degradation-Adaptive Network for Real-World Image Super-Resolution** <br>
 > Jie Liang, Hui Zeng, and [Lei Zhang](https://www4.comp.polyu.edu.hk/~cslzhang/). <br>
@@ -78,7 +78,7 @@ This project is released under the Apache 2.0 license.
 @article{jie2022DASR,
   title={Efficient and Degradation-Adaptive Network for Real-World Image Super-Resolution},
   author={Liang, Jie and Zeng, Hui and Zhang, Lei},
-  journal={arXiv preprint arXiv:},
+  journal={arXiv preprint arXiv:2203.14216},
   year={2022}
 }
 ```
