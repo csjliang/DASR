@@ -3,7 +3,7 @@
 ### [Paper](https://arxiv.org/pdf/2203.14216.pdf)
 
 > **Efficient and Degradation-Adaptive Network for Real-World Image Super-Resolution** <br>
-> Jie Liang, Hui Zeng, and [Lei Zhang](https://www4.comp.polyu.edu.hk/~cslzhang/). <br>
+> [Jie Liang\*](https://liangjie.xyz/), [Hui Zeng\*](https://huizeng.github.io/), and [Lei Zhang](https://www4.comp.polyu.edu.hk/~cslzhang/). <br>
 > In arxiv preprint.
 
 ### Abstract
