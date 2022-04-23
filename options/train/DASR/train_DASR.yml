@@ -57,8 +57,8 @@ datasets:
   train:
     name: DF2K+OST
     type: DASRDataset
-    dataroot_gt: /raid/liangjie/BasicSR_ALL_/datasets/DF2K/DF2K_multiscaleHR_sub
-    meta_info: /raid/liangjie/BasicSR_ALL_/datasets/DF2K/DF2K_multiscaleHR_OST_sub.txt
+    dataroot_gt: datasets/DF2K/DF2K_multiscaleHR_sub
+    meta_info: datasets/DF2K/DF2K_multiscaleHR_OST_sub.txt
     io_backend:
       type: disk
 
@@ -143,7 +143,7 @@ network_d:
 
 # path
 path:
-  pretrain_network_g: /raid/liangjie/BasicSR_ALL_/experiments/pretrained_models/MSRResnet/MSRResNet_x4_f64b16_DIV2K_1000k_B16G1_net_g_1000000.pth
+  pretrain_network_g: experiments/pretrained_models/MSRResnet/MSRResNet_x4_f64b16_DIV2K_1000k_B16G1_net_g_1000000.pth
   pretrain_network_p: ~
   param_key_g: params
   strict_load_g: true
