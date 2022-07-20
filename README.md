@@ -1,10 +1,10 @@
 # DASR
 
-### [Paper](https://arxiv.org/pdf/2203.14216.pdf)
+### [Paper](http://www4.comp.polyu.edu.hk/~cslzhang/paper/ECCV2022_DASR.pdf) | [Supplementary Material](http://www4.comp.polyu.edu.hk/~cslzhang/paper/ECCV2022_DASR_supp.pdf)
 
 > **Efficient and Degradation-Adaptive Network for Real-World Image Super-Resolution** <br>
 > [Jie Liang](https://liangjie.xyz/), [Hui Zeng](https://huizeng.github.io/), and [Lei Zhang](https://www4.comp.polyu.edu.hk/~cslzhang/). <br>
-> In arxiv preprint.
+> In ECCV 2022.
 
 ### Abstract
 
@@ -75,10 +75,10 @@ This project is released under the Apache 2.0 license.
 
 ### Citation
 ```
-@article{jie2022DASR,
+@inproceedings{jie2022DASR,
   title={Efficient and Degradation-Adaptive Network for Real-World Image Super-Resolution},
   author={Liang, Jie and Zeng, Hui and Zhang, Lei},
-  journal={arXiv preprint arXiv:2203.14216},
+  booktitle={European Conference on Computer Vision},
   year={2022}
 }
 ```
